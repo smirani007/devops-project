@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        SONARQUBE_SERVER = 'SonarQube' // The name configured in Jenkins
+        SONARQUBE_SERVER = 'sonarqube' // The name configured in Jenkins
     }
 
     stages {
