@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        SONARQUBE_SERVER = 'SonarQube' // The name configured in Jenkins
+    }
+
     stages {
         
         stage('Build') {
@@ -18,6 +22,17 @@ pipeline {
                 
                 // Run tests, they are usually included in the 'mvn clean install' process
                 sh 'mvn test'
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                echo 'Running SonarQube analysis...'
+                
+                // Run SonarQube scanner using Maven
+                withSonarQubeEnv("${SONARQUBE_SERVER}") {
+                    sh 'mvn sonar:sonar'
+                }
             }
         }
     }
