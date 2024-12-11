@@ -26,29 +26,29 @@ dockerImage = 'event-app'
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                echo 'Building Docker Image...'
-                
-                // Build the Docker image using the JAR from the target directory
-                sh """
-                docker build -t ${dockerImage} .
-                """
-            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                echo 'Pushing Docker Image to Docker Hub...'
-                
-                // Push the image to Docker Hub
-                sh """
-                echo ${DOCKERHUB_CREDENTIALS_PSW} | docker login -u ${DOCKERHUB_CREDENTIALS_USR} --password-stdin
-                docker push ${DOCKER_IMAGE_NAME}
-                """
-            }
-        }
-    }
+        stage('Building our image') {
+          steps{
+            script {
+               dockerImage = docker.build registry + ":$BUILD_NUMBER"
+}
+}
+}
+        stage('Deploy our image') {
+          steps{
+            script {
+              docker.withRegistry( '', registryCredential ) {
+              dockerImage.push()
+}
+}
+}
+}
+           stage('Cleaning up') {
+             steps{
+             sh "docker rmi $registry:$BUILD_NUMBER"
+}
+}
+}
+}
 
     post {
         success {
