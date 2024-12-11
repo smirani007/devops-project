@@ -2,16 +2,15 @@ pipeline {
     agent any
 
     environment {
-        SONARQUBE_SERVER = 'sonarqube' // The name configured in Jenkins
+        DOCKER_USERNAME = 'getghosted' // Replace with your Docker Hub username
+        DOCKER_PASSWORD = 'dckr_pat_jejMdCdKzXmcLfmF7fWWMFkN_tI' // Replace with your Docker Hub password
+        DOCKER_IMAGE_NAME = 'getghosted/eventsproject:1.0.0'
     }
 
     stages {
-        
         stage('Build') {
             steps {
                 echo 'Building the project...'
-                
-                // Run Maven clean install
                 sh 'mvn clean install'
             }
         }
@@ -19,24 +18,26 @@ pipeline {
         stage('Test') {
             steps {
                 echo 'Running tests...'
-                
-                // Run tests, they are usually included in the 'mvn clean install' process
                 sh 'mvn test'
             }
         }
 
-        stage('SonarQube Analysis') {
+        stage('Build Docker Image') {
             steps {
-                echo 'Running SonarQube analysis...'
-                
-                // Run SonarQube scanner using Maven
-                withSonarQubeEnv("${SONARQUBE_SERVER}") {
-                    sh """
-mvn sonar:sonar \
-    -Dsonar.login=admin \
-    -Dsonar.password=Yassine@1234
-			"""
-                  }
+                echo 'Building Docker Image...'
+                sh """
+                docker build -t ${DOCKER_IMAGE_NAME} .
+                """
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                echo 'Pushing Docker Image to Docker Hub...'
+                sh """
+                echo ${DOCKER_PASSWORD} | docker login -u ${DOCKER_USERNAME} --password-stdin
+                docker push ${DOCKER_IMAGE_NAME}
+                """
             }
         }
     }
