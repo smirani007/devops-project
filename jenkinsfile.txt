@@ -31,8 +31,12 @@ pipeline {
                 
                 // Run SonarQube scanner using Maven
                 withSonarQubeEnv("${SONARQUBE_SERVER}") {
-                    sh 'mvn sonar:sonar'
-                }
+                    sh """
+mvn sonar:sonar \
+    -Dsonar.login=admin \
+    -Dsonar.password=Yassine@1234
+			"""
+                  }
             }
         }
     }
