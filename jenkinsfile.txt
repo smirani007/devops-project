@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_USERNAME = 'getghosted' // Replace with your Docker Hub username
-        DOCKER_PASSWORD = 'dckr_pat_jejMdCdKzXmcLfmF7fWWMFkN_tI' // Replace with your Docker Hub password
+        DOCKER_PASSWORD = 'Yassine@1234' // Replace with your Docker Hub password
         DOCKER_IMAGE_NAME = 'getghosted/eventsproject:1.0.0'
     }
 
