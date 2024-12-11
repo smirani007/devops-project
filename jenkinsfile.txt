@@ -1,12 +1,5 @@
 pipeline {
     agent any
-
-    environment {
-registry = "getghosted/event"
-registryCredential = '777'
-dockerImage = 'event-app'
-    }
-
     stages {
         stage('Build') {
             steps {
