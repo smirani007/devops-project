@@ -43,16 +43,7 @@ pipeline {
             }
         }
 
-        stage('Préparation et mise en place sur Nexus') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: NEXUS_CREDENTIALS, usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
-                        sh './mvnw deploy -DaltDeploymentRepository=nexus::default::$NEXUS_URL'
-                    }
-                }
-            }
-        }
-
+        
         stage('Création de l’image Docker') {
             steps {
                 sh 'docker build -t your-dockerhub-user/spring-app:latest .'
