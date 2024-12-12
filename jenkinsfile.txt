@@ -35,7 +35,7 @@ pipeline {
                         steps {
                 withSonarQubeEnv('SonarQube-Server') { // Ensure this matches your SonarQube server configuration
                     withCredentials([
-                        usernamePassword(credentialsId: 'yassine009', usernameVariable: 'SONAR_USER', passwordVariable: 'SONAR_PASS')
+                        usernamePassword(credentialsId: '888', usernameVariable: 'SONAR_USER', passwordVariable: 'SONAR_PASS')
                     ]) {
                         sh 'mvn sonar:sonar -Dsonar.login=$SONAR_USER -Dsonar.password=$SONAR_PASS'
                     }
