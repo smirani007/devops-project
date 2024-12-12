@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_HUB_CREDENTIALS = '777'  // ID des credentials DockerHub
         SONARQUBE_ENV = 'SonarQube-Server'          // Config SonarQube dans Jenkins
-        NEXUS_URL = 'http://192.168.33.10/:8081/repository/maven-releases/'
+        NEXUS_URL = 'http://192.168.33.10:9096/repository/maven-releases/'
         NEXUS_CREDENTIALS = '999'           // ID des credentials Nexus
     }
 
