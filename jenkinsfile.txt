@@ -33,7 +33,7 @@ pipeline {
 
         stage('Analyse de qualité SonarQube') {
             steps {
-                script {
+                
                     withSonarQubeEnv('SonarQube-Server') { // Ensure this matches your configured SonarQube server in Jenkins
                     withCredentials([string(credentialsId: 'sqa_2f18ac43bbf2f05d480c3f6f0a42368f1c5a0973', variable: 'SONAR_TOKEN')]) {
                         sh 'mvn sonar:sonar -Dsonar.login=$SONAR_TOKEN'
@@ -85,4 +85,4 @@ pipeline {
         }
     }
 }
-}
+
