@@ -26,6 +26,17 @@ pipeline {
                 sh './mvnw test'
             }
         }
+        stage('Analyse de qualité SonarQube') {
+                                steps {
+                        withSonarQubeEnv('SonarQube-Server') { // Ensure this matches your SonarQube server configuration
+                            withCredentials([
+                                usernamePassword(credentialsId: '888', usernameVariable: 'SONAR_USER', passwordVariable: 'SONAR_PASS')
+                            ]) {
+                                sh 'mvn sonar:sonar -Dsonar.login=$SONAR_USER -Dsonar.password=$SONAR_PASS'
+                            }
+                        }
+                    }
+                }
 
 
 
