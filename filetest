@@ -51,3 +51,14 @@ stage('Analyse de qualité SonarQube') {
             junit '**/target/surefire-reports/*.xml'
         }
     }
+    stage('Upload to Nexus') {
+              steps {
+                  withCredentials([usernamePassword(credentialsId: "${NEXUS_CREDENTIALS}", usernameVariable: 'admin', passwordVariable: 'NEXUS_PASS')]) {
+                      sh '''
+                      mvn deploy -DaltDeploymentRepository=nexus::default::${NEXUS_URL} \
+                                 -Dnexus.username=${NEXUS_USER} \
+                                 -Dnexus.password=${NEXUS_PASS}
+                      '''
+                  }
+              }
+          }
