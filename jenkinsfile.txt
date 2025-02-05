@@ -9,11 +9,7 @@ pipeline {
     }
 
     stages {
-        stage('Récupération du projet') {
-            steps {
-                checkout scm
-            }
-        }
+
 
         stage('Compilation') {
             steps {
@@ -31,49 +27,8 @@ pipeline {
             }
         }
 
-        stage('Analyse de qualité SonarQube') {
-                        steps {
-                withSonarQubeEnv('SonarQube-Server') { // Ensure this matches your SonarQube server configuration
-                    withCredentials([
-                        usernamePassword(credentialsId: '888', usernameVariable: 'SONAR_USER', passwordVariable: 'SONAR_PASS')
-                    ]) {
-                        sh 'mvn sonar:sonar -Dsonar.login=$SONAR_USER -Dsonar.password=$SONAR_PASS'
-                    }
-                }
-            }
-        }
+
 
         
-        stage('Création de l’image Docker') {
-            steps {
-                sh 'docker build -t your-dockerhub-user/spring-app:latest .'
-            }
-        }
 
-        stage('Push de l’image sur DockerHub') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS, usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh """
-                            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                            docker push your-dockerhub-user/spring-app:latest
-                        """
-                    }
-                }
-            }
-        }
-
-        stage('Lancement avec docker-compose') {
-            steps {
-                sh 'docker-compose up -d'
-            }
-        }
-    }
-
-    post {
-        always {
-            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-            junit '**/target/surefire-reports/*.xml'
-        }
-    }
 }

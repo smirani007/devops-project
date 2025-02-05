@@ -14,18 +14,7 @@
     <name>eventsProject</name>
     <description>eventsProject</description>
    
-    <scm>
-        <distributionManagement>
-    <repository>
-        <id>nexus</id>
-        <url>http://192.168.33.10:9096/repository/maven-releases/</url>
-    </repository>
-    <snapshotRepository>
-        <id>nexus</id>
-        <url>http://192.168.33.10:9096/repository/maven-snapshots/</url>
-    </snapshotRepository>
-</distributionManagement>
-    </scm>
+    <scm> </scm>
     <properties>
         <java.version>1.8</java.version>
     </properties>
@@ -84,6 +73,14 @@
                 <version>3.0.0-M7</version>
                 <configuration>
                     <tagNameFormat>v@{project.version}</tagNameFormat>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>9</source>
+                    <target>9</target>
                 </configuration>
             </plugin>
         </plugins>
