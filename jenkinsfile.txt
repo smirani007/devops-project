@@ -40,7 +40,7 @@ pipeline {
 
         stage('Création de l’image Docker') {
                     steps {
-                        sh 'docker build -t your-dockerhub-user/spring-app:latest .'
+                        sh 'docker build -t getghosted/yassine-spring-app:latest .'
                     }
                 }
 
