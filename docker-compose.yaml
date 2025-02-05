@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   app:
-    image: yassine-app
+    image: yassine-spring-app
     ports:
       - "9058:8080" # Expose your application port
     depends_on:
