@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_HUB_CREDENTIALS = '777'  // ID des credentials DockerHub
         SONARQUBE_ENV = 'SonarQube-Server'          // Config SonarQube dans Jenkins
-        NEXUS_URL = 'http://192.168.33.10:9096/repository/maven-releases/'
+        NEXUS_URL = 'http://192.168.33.10:9087/repository/maven-releases/'
         NEXUS_CREDENTIALS = '999'           // ID des credentials Nexus
     }
 
@@ -37,6 +37,19 @@ pipeline {
                         }
                     }
                 }
+
+
+       stage('Upload to Nexus') {
+                   steps {
+                       withCredentials([usernamePassword(credentialsId: "${NEXUS_CREDENTIALS}", usernameVariable: 'NEXUS_USER', passwordVariable: 'NEXUS_PASS')]) {
+                           sh '''
+                           mvn deploy -DaltDeploymentRepository=nexus::default::${NEXUS_URL} \
+                                      -Dnexus.username=${NEXUS_USER} \
+                                      -Dnexus.password=${NEXUS_PASS}
+                           '''
+                       }
+                   }
+}
 
         stage('Création de l’image Docker') {
                     steps {
