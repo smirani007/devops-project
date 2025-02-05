@@ -60,14 +60,14 @@ pipeline {
                     }
                 }
             }
-
+        }
 
         stage('Lancement avec docker-compose') {
                     steps {
                         sh 'docker-compose up -d'
                     }
                 }
-        }
+
 
 
 
